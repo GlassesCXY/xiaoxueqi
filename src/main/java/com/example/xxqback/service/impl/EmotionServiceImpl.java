@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmotionServiceImpl {
@@ -26,5 +27,11 @@ public class EmotionServiceImpl {
         return emotionMapper.countEmotions();
     }
 
+    public List<Map<String, Object>> countEmotionsByDate() {
+        return emotionMapper.countEmotionsByDate();
+    }
 
+    public List<Map<String, Object>> countEmotionsByType() {
+        return emotionMapper.countEmotionsByType();
+    }
 }

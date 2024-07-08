@@ -1,5 +1,6 @@
 package com.example.xxqback.controller;
 
+import com.example.xxqback.Util.MinioUtil;
 import com.example.xxqback.entity.Stranger;
 import com.example.xxqback.service.impl.StrangerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class StrangerController {
     public String deleteStranger(@PathVariable int sid) {
         strangerService.deleteStranger(sid);
         return "Record deleted successfully";
+    }
+
+    @Autowired
+    private MinioUtil minioUtil;
+
+
+    @GetMapping("/image/{id}")
+    public Map<String, String> getStrangerImage(@PathVariable int id) {
+        String url = minioUtil.getFileUrl("stranger", id + ".jpg");
+        Map<String, String> response = new HashMap<>();
+        response.put("url", url);
+        return response;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.xxqback.controller;
 
+import com.example.xxqback.Util.MinioUtil;
 import com.example.xxqback.entity.Emotion;
 import com.example.xxqback.service.impl.EmotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,27 @@ public class EmotionController {
     public String deleteEmotion(@PathVariable int eid) {
         emotionService.deleteEmotion(eid);
         return "Record deleted successfully";
+    }
+
+    @Autowired
+    private MinioUtil minioUtil;
+
+
+    @GetMapping("/image/{id}")
+    public Map<String, String> getEmotionImage(@PathVariable int id) {
+        String url = minioUtil.getFileUrl("emo", id + ".jpg");
+        Map<String, String> response = new HashMap<>();
+        response.put("url", url);
+        return response;
+    }
+
+    @GetMapping("/countByDate")
+    public List<Map<String, Object>> countEmotionsByDate() {
+        return emotionService.countEmotionsByDate();
+    }
+
+    @GetMapping("/countByType")
+    public List<Map<String, Object>> countEmotionsByType() {
+        return emotionService.countEmotionsByType();
     }
 }

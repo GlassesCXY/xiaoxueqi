@@ -4,6 +4,7 @@ import com.example.xxqback.entity.Emotion;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface EmotionMapper {
@@ -16,4 +17,10 @@ public interface EmotionMapper {
 
     @Select("SELECT COUNT(*) FROM emotion")
     int countEmotions();
+
+    @Select("SELECT DATE(emotion_date) AS date, COUNT(*) AS count FROM emotion WHERE emotion_date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY) GROUP BY DATE(emotion_date)")
+    List<Map<String, Object>> countEmotionsByDate();
+
+    @Select("SELECT type, COUNT(*) AS count FROM emotion WHERE emotion_date >= DATE_SUB(CURDATE(), INTERVAL 5 DAY) GROUP BY type")
+    List<Map<String, Object>> countEmotionsByType();
 }
